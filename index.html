@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>VaultLock Password Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= LOCK SCREEN ================= -->
+
+  <section id="lockScreen" class="lock-screen">
+
+    <div class="lock-card">
+
+      <div class="logo">🔐</div>
+
+      <h1>VaultLock</h1>
+
+      <p id="lockText">
+        Create your master password to secure your vault.
+      </p>
+
+      <div class="form-group">
+        <label for="masterPassword">Master Password</label>
+
+        <input
+          id="masterPassword"
+          type="password"
+          placeholder="Enter master password"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <div id="confirmBox" class="form-group">
+        <label for="confirmPassword">
+          Confirm Master Password
+        </label>
+
+        <input
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm master password"
+        >
+      </div>
+
+      <button id="unlockBtn" class="btn primary full">
+        Create Vault
+      </button>
+
+      <small>
+        Your master password is never stored.
+      </small>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= APPLICATION ================= -->
+
+  <section id="app" class="app hidden">
+
+    <header class="header">
+
+      <div class="brand">
+        <span class="brand-icon">🔐</span>
+        <span>VaultLock</span>
+      </div>
+
+      <div class="header-actions">
+
+        <button
+          class="btn secondary"
+          id="themeBtn"
+          title="Toggle dark mode"
+        >
+          🌙
+        </button>
+
+        <button
+          class="btn secondary"
+          id="exportBtn"
+          title="Export encrypted vault"
+        >
+          📤
+        </button>
+
+        <button
+          class="btn secondary"
+          id="importBtn"
+          title="Import encrypted vault"
+        >
+          📥
+        </button>
+
+        <input
+          id="importFile"
+          type="file"
+          accept=".json"
+          hidden
+        >
+
+        <button
+          class="btn danger"
+          id="lockBtn"
+          title="Lock vault"
+        >
+          🔒
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <main class="container">
+
+      <!-- ================= TOOLBAR ================= -->
+
+      <div class="toolbar">
+
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="🔎 Search passwords..."
+        >
+
+        <select id="categoryFilter">
+
+          <option value="">All Categories</option>
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Social">Social</option>
+          <option value="Finance">Finance</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Other">Other</option>
+
+        </select>
+
+        <button
+          class="btn primary"
+          id="addBtn"
+        >
+          + Add Password
+        </button>
+
+      </div>
+
+
+      <!-- ================= ENTRIES ================= -->
+
+      <div id="entries" class="entries"></div>
+
+    </main>
+
+  </section>
+
+
+  <!-- ================= ENTRY MODAL ================= -->
+
+  <div id="modal" class="modal hidden">
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+
+        <h2 id="modalTitle">
+          Add Password
+        </h2>
+
+        <button
+          id="closeModal"
+          class="close"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <input id="entryId" type="hidden">
+
+
+      <div class="form-group">
+
+        <label>Website / Service</label>
+
+        <input
+          id="site"
+          type="text"
+          placeholder="Google, GitHub, Netflix..."
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Website URL</label>
+
+        <input
+          id="url"
+          type="url"
+          placeholder="https://example.com"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Username / Email</label>
+
+        <input
+          id="username"
+          type="text"
+          placeholder="user@example.com"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Password</label>
+
+        <div class="password-input">
+
+          <input
+            id="password"
+            type="password"
+            placeholder="Password"
+          >
+
+          <button
+            type="button"
+            class="icon-btn"
+            id="showModalPassword"
+          >
+            👁
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================= PASSWORD GENERATOR ================= -->
+
+      <div class="generator">
+
+        <div class="generator-title">
+          🔑 Password Generator
+        </div>
+
+        <div class="generator-row">
+
+          <input
+            id="generatedPassword"
+            readonly
+            placeholder="Generated password"
+          >
+
+          <button
+            type="button"
+            class="btn primary"
+            id="generateBtn"
+          >
+            Generate
+          </button>
+
+        </div>
+
+
+        <div class="generator-options">
+
+          <label>
+            <input
+              id="uppercase"
+              type="checkbox"
+              checked
+            >
+            Uppercase
+          </label>
+
+          <label>
+            <input
+              id="lowercase"
+              type="checkbox"
+              checked
+            >
+            Lowercase
+          </label>
+
+          <label>
+            <input
+              id="numbers"
+              type="checkbox"
+              checked
+            >
+            Numbers
+          </label>
+
+          <label>
+            <input
+              id="symbols"
+              type="checkbox"
+              checked
+            >
+            Symbols
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Category</label>
+
+        <select id="category">
+
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Social">Social</option>
+          <option value="Finance">Finance</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Other">Other</option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        id="saveBtn"
+        class="btn success full"
+      >
+        Save Password
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= TOAST ================= -->
+
+  <div id="toast" class="toast"></div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
